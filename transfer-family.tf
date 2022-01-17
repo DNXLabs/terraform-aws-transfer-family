@@ -23,6 +23,12 @@ resource "aws_transfer_user" "default" {
     target = "/${var.s3_bucket_name}/$${Transfer:UserName}"
   }
 
+  lifecycle {
+    ignore_changes = [
+      home_directory_mappings
+    ]
+  }
+
 }
 
 resource "aws_transfer_ssh_key" "default" {
@@ -30,11 +36,8 @@ resource "aws_transfer_ssh_key" "default" {
   server_id  = join("", aws_transfer_server.default[*].id)
   user_name  = each.value.username
   body       = each.value.ssh_public_key
-  
+
   depends_on = [
     aws_transfer_user.default
   ]
 }
-
-
-

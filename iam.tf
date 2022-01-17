@@ -80,7 +80,7 @@ resource "aws_iam_policy" "s3_access_for_sftp_users" {
 
 resource "aws_iam_role" "s3_access_for_sftp_users" {
   for_each            = { for user in var.sftp_users : user.username => user }
-  name                = "${each.value.name}-s3-access-for-sftp"
+  name                = "${each.value.username}-s3-access-for-sftp"
   assume_role_policy  = join("", data.aws_iam_policy_document.assume_role_policy[*].json)
   managed_policy_arns = [aws_iam_policy.s3_access_for_sftp_users[each.value.username].arn]
 }
