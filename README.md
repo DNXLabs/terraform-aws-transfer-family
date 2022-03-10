@@ -24,13 +24,14 @@
 | s3\_bucket\_name | The bucket name | `string` | n/a | yes |
 | security\_policy\_name | Specifies the name of the security policy that is attached to the server. Possible values are TransferSecurityPolicy-2018-11, TransferSecurityPolicy-2020-06, and TransferSecurityPolicy-FIPS-2020-06. Default value is: TransferSecurityPolicy-2018-11. | `string` | `"TransferSecurityPolicy-2018-11"` | no |
 | server\_name | Specifies the name of the SFTP server | `string` | n/a | yes |
-| sftp\_users | List of SFTP usernames and public keys | <pre>list(object({<br>    username  = string,<br>    ssh_public_key = string<br>  }))</pre> | `[]` | no |
+| sftp\_users | List of SFTP usernames and public keys | <pre>list(object({<br>    username  = string,<br>    ssh_public_key = string<br>    is_admin = bool<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | endpoint | n/a |
+| test | n/a |
 
 <!--- END_TF_DOCS --->
 
