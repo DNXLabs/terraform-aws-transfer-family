@@ -50,7 +50,9 @@ data "aws_iam_policy_document" "s3_access_for_sftp_users" {
       "s3:PutObjectACL"
     ]
 
-    resources = [
+    resources = each.value.is_admin == true ? [
+      "${join("", data.aws_s3_bucket.landing[*].arn)}/*"
+    ] : [
       "${join("", data.aws_s3_bucket.landing[*].arn)}/${each.value.username}/*"
     ]
   }
