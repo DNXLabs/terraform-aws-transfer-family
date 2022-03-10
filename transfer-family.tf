@@ -11,6 +11,10 @@ resource "aws_transfer_server" "default" {
   }
 }
 
+output "test" {
+  value = var.sftp_users
+}
+
 resource "aws_transfer_user" "default" {
   for_each            = { for user in var.sftp_users : user.username => user }
   server_id           = join("", aws_transfer_server.default[*].id)
@@ -20,7 +24,7 @@ resource "aws_transfer_user" "default" {
 
   home_directory_mappings {
     entry  = "/"
-    target = "/${var.s3_bucket_name}/$${Transfer:UserName}"
+    target = each.value.is_admin == true ? "/${var.s3_bucket_name}" : "/${var.s3_bucket_name}/$${Transfer:UserName}"
   }
 
   lifecycle {
