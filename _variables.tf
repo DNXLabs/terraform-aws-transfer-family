@@ -1,6 +1,6 @@
 variable "s3_bucket_name" {
   type = string
-  description = "The bucket name"  
+  description = "The bucket name"
 }
 
 variable "server_name" {
@@ -18,6 +18,7 @@ variable "sftp_users" {
   type = list(object({
     username  = string,
     ssh_public_key = string
+    is_admin = bool
   }))
 
   default     = []
