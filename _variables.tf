@@ -1,6 +1,11 @@
 variable "s3_bucket_name" {
   type = string
-  description = "The bucket name"
+  description = "The bucket name"  
+}
+
+variable "s3_bucket_versioning" {
+  type = bool
+  description = "Enable bucket versioning"
 }
 
 variable "server_name" {
@@ -15,12 +20,21 @@ variable "security_policy_name" {
 }
 
 variable "sftp_users" {
-  type = list(object({
-    username  = string,
-    ssh_public_key = string
-    is_admin = bool
-  }))
-
+  type = list
   default     = []
-  description = "List of SFTP usernames and public keys"
+  description = "List of SFTP usernames"
+}
+variable "domain_zone" {
+  type        = string
+  description = "Hosted Zone name of the desired Hosted Zone"
+}
+
+variable "domain_host" {
+  type = string
+  description = "The name of the Route 53 record"
+}
+
+variable "account_name" {
+  type = string
+  description = "The account or environment name"
 }
