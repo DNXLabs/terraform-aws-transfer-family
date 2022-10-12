@@ -1,16 +1,16 @@
 variable "s3_bucket_name" {
-  type = string
+  type        = string
   description = "The bucket name"
 }
 
 variable "s3_bucket_versioning" {
-  type = bool
+  type        = bool
   default     = true
   description = "Enable bucket versioning"
 }
 
 variable "server_name" {
-  type = string
+  type        = string
   description = "Specifies the name of the SFTP server"
 }
 
@@ -21,7 +21,7 @@ variable "security_policy_name" {
 }
 
 variable "sftp_users" {
-  type = list
+  type        = list(any)
   default     = []
   description = "List of SFTP usernames"
 }
@@ -31,11 +31,11 @@ variable "domain_zone" {
 }
 
 variable "domain_host" {
-  type = string
+  type        = string
   description = "The name of the Route 53 record"
 }
 
 variable "account_name" {
-  type = string
+  type        = string
   description = "The account or environment name"
 }
