@@ -24,12 +24,12 @@ jobs:
         # Use `ref` instead of `sha` to enable pushing back to `ref`
         ref: ${{ github.event.pull_request.head.ref }}
 
+    - uses: hashicorp/setup-terraform@v2
+
     # Do all the formatting stuff
     - name: Auto Format
       if: github.event.pull_request.state == 'open'
-      runs-on: ubuntu-latest
-      container:
-        image: hashicorp/terraform:latest
+      shell: bash
       run: terraform fmt -recursive .
 
     # Commit changes (if any) to the PR branch
