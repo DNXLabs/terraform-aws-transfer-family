@@ -1,10 +1,11 @@
 variable "s3_bucket_name" {
   type = string
-  description = "The bucket name"  
+  description = "The bucket name"
 }
 
 variable "s3_bucket_versioning" {
   type = bool
+  default     = true
   description = "Enable bucket versioning"
 }
 
