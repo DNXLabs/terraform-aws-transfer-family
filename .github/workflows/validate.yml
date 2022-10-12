@@ -1,32 +1,33 @@
-name: Lint
+name: validate
 
 on:
   pull_request_target:
     types: [opened, synchronize]
 
 jobs:
-  tflint:
+  tf-lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
-
       - uses: terraform-linters/setup-tflint@v2
         name: Setup TFLint
-        with:
-          tflint_version: v0.38.1
+      - name: Show version
+        run: tflint --version
+      - name: Init TFLint
+        run: tflint --init
+      - name: Run TFLint
+        run: tflint
 
-  fmt:
+  tf-fmt:
     name: Code Format
-    runs-on: ubuntu-latest
-    container:
-      image: hashicorp/terraform:latest
     steps:
       - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
       - run: terraform fmt --recursive -check=true
 
-  validate:
+  tf-validate:
     name: Validate
     runs-on: ubuntu-latest
     container:
@@ -35,6 +36,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Validate Code
         env:
+          AWS_REGION: us-east-1
           TF_WARN_OUTPUT_ERRORS: 1
         run: |
           terraform init
@@ -47,18 +49,3 @@ jobs:
             terraform validate
             cd -
           done
-  minimum:
-    name: Minimum version check
-    runs-on: ubuntu-latest
-    container:
-      image: hashicorp/terraform:0.13.0
-    steps:
-      - uses: actions/checkout@master
-      - name: Validate Code
-        env:
-          AWS_REGION: us-east-1
-          TF_WARN_OUTPUT_ERRORS: 1
-        run: |
-          sed -i -e 's/>=/=/' -e 's/ \(\d\+\.\d\+\)"/ \1.0"/' versions.tf
-          terraform init
-          terraform validate

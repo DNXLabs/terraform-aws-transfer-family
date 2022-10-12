@@ -1,10 +1,8 @@
-name: Generate terraform docs
+name: auto-docs
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
+  pull_request_target:
+    types: [opened, synchronize]
 
 jobs:
   docs:
@@ -21,4 +19,4 @@ jobs:
         tf_docs_output_file: README.md
         tf_docs_output_method: inject
         tf_docs_git_push: 'true'
-        tf_docs_git_commit_message: 'terraform-docs: automated update action'
+        tf_docs_git_commit_message: 'auto-docs: automated update action'
