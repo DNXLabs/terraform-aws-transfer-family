@@ -1,16 +1,20 @@
 variable "s3_bucket_name" {
-  type = string
-  description = "The bucket name"  
+  type        = string
+  description = "The bucket name"
 }
 
 variable "s3_bucket_versioning" {
-  type = bool
+  type        = bool
   description = "Enable bucket versioning"
 }
 
 variable "server_name" {
-  type = string
+  type        = string
   description = "Specifies the name of the SFTP server"
+}
+
+variable "vpc_id" {
+  description = "VPC ID to deploy the SFTP cluster."
 }
 
 variable "security_policy_name" {
@@ -20,9 +24,40 @@ variable "security_policy_name" {
 }
 
 variable "sftp_users" {
-  type = list
+  type        = list(any)
   default     = []
   description = "List of SFTP usernames"
+}
+
+variable "address_allocation_ids" {
+  type        = list(string)
+  description = "List of Elastic IPs Allocation IDs to attach to VPC Endpoint."
+}
+
+variable "ip_allowlist" {
+  #type        = list(string)
+  description = "List of IPs to allow on WAF and IAM Policies"
+}
+
+variable "endpoint_type" {
+  default     = "PUBLIC"
+  description = "PUBLIC or VPC"
+}
+
+variable "aws_account_id" {
+  type        = string
+  description = "AWS Account ID"
+}
+
+variable "aws_role" {
+  type        = string
+  description = "IAM Role"
+}
+
+variable "public_subnet_ids" {
+  type        = list(any)
+  default     = []
+  description = "List of public subnet IDs for VPC Endpoint."
 }
 variable "domain_zone" {
   type        = string
@@ -30,11 +65,11 @@ variable "domain_zone" {
 }
 
 variable "domain_host" {
-  type = string
+  type        = string
   description = "The name of the Route 53 record"
 }
 
 variable "account_name" {
-  type = string
+  type        = string
   description = "The account or environment name"
 }

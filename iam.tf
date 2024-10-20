@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "logging" {
-  name   =  "transfer-family-logging-${var.server_name}"
+  name   = "transfer-family-logging-${var.server_name}"
   policy = join("", data.aws_iam_policy_document.logging[*].json)
 }
 
@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 data "aws_iam_policy_document" "s3_access_for_sftp_users" {
-  for_each  = { for user in var.sftp_users : user.username => user }
+  for_each = { for user in var.sftp_users : user.username => user }
 
   statement {
     sid    = "AllowListingOfUserFolder"
@@ -73,9 +73,9 @@ data "aws_iam_policy_document" "logging" {
 }
 
 resource "aws_iam_policy" "s3_access_for_sftp_users" {
-  for_each  = { for user in var.sftp_users : user.username => user }
-  name      = "${each.value.username}-s3-access-for-sftp"
-  policy    = data.aws_iam_policy_document.s3_access_for_sftp_users[each.value.username].json
+  for_each = { for user in var.sftp_users : user.username => user }
+  name     = "${each.value.username}-s3-access-for-sftp"
+  policy   = data.aws_iam_policy_document.s3_access_for_sftp_users[each.value.username].json
 }
 
 resource "aws_iam_role" "s3_access_for_sftp_users" {
