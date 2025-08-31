@@ -1,14 +1,19 @@
 resource "aws_s3_bucket" "sftp" {
   bucket_prefix = var.s3_bucket_name
-  versioning {
-    enabled = try(var.s3_bucket_versioning, true)
+}
+
+resource "aws_s3_bucket_versioning" "sftp" {
+  bucket = aws_s3_bucket.sftp.id
+  versioning_configuration {
+    status = try(var.s3_bucket_versioning, "Enabled")
   }
-  server_side_encryption_configuration {
-    rule {
-      bucket_key_enabled = false
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "sftp" {
+  bucket = aws_s3_bucket.sftp.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
     }
   }
 }

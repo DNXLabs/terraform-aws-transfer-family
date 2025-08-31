@@ -4,8 +4,14 @@ variable "s3_bucket_name" {
 }
 
 variable "s3_bucket_versioning" {
-  type        = bool
-  description = "Enable bucket versioning"
+  type        = string
+  default     = "Enabled"
+  description = "Enable bucket versioning. Can be 'Enabled','Disabled' or 'Suspended'"
+  
+  validation {
+    condition = contains(["Enabled", "Disabled", "Suspended"], var.s3_bucket_versioning)
+    error_message = "The s3_bucket_versioning value must be one of: 'Enabled', 'Disabled', or 'Suspended'."
+  }
 }
 
 variable "server_name" {
@@ -14,6 +20,7 @@ variable "server_name" {
 }
 
 variable "vpc_id" {
+  type        = string
   description = "VPC ID to deploy the SFTP cluster."
 }
 
@@ -24,7 +31,9 @@ variable "security_policy_name" {
 }
 
 variable "sftp_users" {
-  type        = list(any)
+  type = list(object({
+    username = string
+  }))
   default     = []
   description = "List of SFTP usernames"
 }
@@ -35,13 +44,14 @@ variable "address_allocation_ids" {
 }
 
 variable "ip_allowlist" {
-  #type        = list(string)
-  description = "List of IPs to allow on WAF and IAM Policies"
+  type        = string
+  description = "Comma separated list of IPs to allow on WAF and IAM Policies"
 }
 
 variable "endpoint_type" {
   default     = "PUBLIC"
   description = "PUBLIC or VPC"
+  type        = string
 }
 
 variable "aws_account_id" {
