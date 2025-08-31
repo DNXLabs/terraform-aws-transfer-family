@@ -54,15 +54,15 @@ variable "endpoint_type" {
   type        = string
 }
 
-variable "aws_account_id" {
-  type        = string
-  description = "AWS Account ID"
-}
+# variable "aws_account_id" {
+#   type        = string
+#   description = "AWS Account ID"
+# }
 
-variable "aws_role" {
-  type        = string
-  description = "IAM Role"
-}
+# variable "aws_role" {
+#   type        = string
+#   description = "IAM Role"
+# }
 
 variable "public_subnet_ids" {
   type        = list(any)
