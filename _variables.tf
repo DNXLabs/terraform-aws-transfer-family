@@ -7,9 +7,9 @@ variable "s3_bucket_versioning" {
   type        = string
   default     = "Enabled"
   description = "Enable bucket versioning. Can be 'Enabled','Disabled' or 'Suspended'"
-  
+
   validation {
-    condition = contains(["Enabled", "Disabled", "Suspended"], var.s3_bucket_versioning)
+    condition     = contains(["Enabled", "Disabled", "Suspended"], var.s3_bucket_versioning)
     error_message = "The s3_bucket_versioning value must be one of: 'Enabled', 'Disabled', or 'Suspended'."
   }
 }
@@ -39,9 +39,9 @@ variable "sftp_users" {
 }
 
 
-variable "ip_allowlist" {
-  type        = string
-  description = "Comma separated list of IPs to allow on WAF and IAM Policies"
+variable "allowed_ips_list" {
+  type        = list(string)
+  description = "List of IPs to allow on WAF and IAM Policies"
 }
 
 variable "endpoint_type" {
@@ -49,16 +49,6 @@ variable "endpoint_type" {
   description = "PUBLIC or VPC"
   type        = string
 }
-
-# variable "aws_account_id" {
-#   type        = string
-#   description = "AWS Account ID"
-# }
-
-# variable "aws_role" {
-#   type        = string
-#   description = "IAM Role"
-# }
 
 variable "public_subnet_ids" {
   type        = list(any)
