@@ -68,7 +68,7 @@ run "test_public_endpoint_basic" {
         username = "testuser1"
       }
     ]
-    ip_allowlist          = "10.0.0.0/8,192.168.1.0/24"
+    allowed_ips_list      = ["10.0.0.0/8", "192.168.1.0/24"]
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-12345678"]
     domain_zone           = "example.com"
@@ -161,7 +161,7 @@ run "test_vpc_endpoint_configuration" {
         username = "vpcuser2"
       }
     ]
-    ip_allowlist          = "172.16.0.0/12"
+    allowed_ips_list      = ["172.16.0.0/12"]
     endpoint_type         = "VPC"
     public_subnet_ids     = ["subnet-87654321", "subnet-12345678"]
     domain_zone           = "example.com"
@@ -245,7 +245,7 @@ run "test_multiple_users" {
         username = "user3"
       }
     ]
-    ip_allowlist          = "10.0.0.0/8"
+    allowed_ips_list      = ["10.0.0.0/8"]
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-11111111"]
     domain_zone           = "example.com"
@@ -310,7 +310,7 @@ run "test_security_policy" {
         username = "secureuser"
       }
     ]
-    ip_allowlist          = "192.168.0.0/16"
+    allowed_ips_list      = ["192.168.0.0/16"]
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-22222222"]
     domain_zone           = "example.com"
@@ -335,7 +335,7 @@ run "test_empty_users_list" {
     server_name          = "empty-users-sftp-server"
     vpc_id               = "vpc-33333333"
     sftp_users           = []
-    ip_allowlist          = "10.0.0.0/8"
+    allowed_ips_list      = ["10.0.0.0/8"]
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-33333333"]
     domain_zone           = "example.com"
@@ -382,7 +382,7 @@ run "test_invalid_s3_bucket_versioning" {
         username = "testuser"
       }
     ]
-    ip_allowlist          = "10.0.0.0/8"
+    allowed_ips_list      = ["10.0.0.0/8"]
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-55555555"]
     domain_zone           = "example.com"
