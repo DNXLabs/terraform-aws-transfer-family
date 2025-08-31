@@ -1,3 +1,13 @@
+# Create Elastic IPs for the Transfer Server
+resource "aws_eip" "transfer_server" {
+  count  = var.endpoint_type == "VPC" ? length(var.public_subnet_ids) : 0
+  domain = "vpc"
+
+  tags = {
+    Name = "${var.server_name}-eip-${count.index + 1}"
+  }
+}
+
 resource "aws_transfer_server" "default" {
   identity_provider_type    = "SERVICE_MANAGED"
   protocols                 = ["SFTP"]
@@ -9,7 +19,7 @@ resource "aws_transfer_server" "default" {
   dynamic "endpoint_details" {
   for_each = var.endpoint_type == "VPC" ? [1] : []
   content {
-    address_allocation_ids = var.address_allocation_ids
+    address_allocation_ids = aws_eip.transfer_server[*].allocation_id
     subnet_ids             = var.public_subnet_ids
     vpc_id                 = var.vpc_id
     security_group_ids = [aws_security_group.sftp_sg[0].id]

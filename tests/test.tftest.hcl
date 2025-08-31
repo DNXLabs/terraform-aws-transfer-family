@@ -68,7 +68,6 @@ run "test_public_endpoint_basic" {
         username = "testuser1"
       }
     ]
-    address_allocation_ids = ["eipalloc-12345678"]
     ip_allowlist          = "10.0.0.0/8,192.168.1.0/24"
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-12345678"]
@@ -162,7 +161,6 @@ run "test_vpc_endpoint_configuration" {
         username = "vpcuser2"
       }
     ]
-    address_allocation_ids = ["eipalloc-87654321", "eipalloc-12345678"]
     ip_allowlist          = "172.16.0.0/12"
     endpoint_type         = "VPC"
     public_subnet_ids     = ["subnet-87654321", "subnet-12345678"]
@@ -247,7 +245,6 @@ run "test_multiple_users" {
         username = "user3"
       }
     ]
-    address_allocation_ids = ["eipalloc-11111111"]
     ip_allowlist          = "10.0.0.0/8"
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-11111111"]
@@ -313,7 +310,6 @@ run "test_security_policy" {
         username = "secureuser"
       }
     ]
-    address_allocation_ids = ["eipalloc-22222222"]
     ip_allowlist          = "192.168.0.0/16"
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-22222222"]
@@ -339,7 +335,6 @@ run "test_empty_users_list" {
     server_name          = "empty-users-sftp-server"
     vpc_id               = "vpc-33333333"
     sftp_users           = []
-    address_allocation_ids = ["eipalloc-33333333"]
     ip_allowlist          = "10.0.0.0/8"
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-33333333"]
@@ -387,7 +382,6 @@ run "test_invalid_s3_bucket_versioning" {
         username = "testuser"
       }
     ]
-    address_allocation_ids = ["eipalloc-55555555"]
     ip_allowlist          = "10.0.0.0/8"
     endpoint_type         = "PUBLIC"
     public_subnet_ids     = ["subnet-55555555"]

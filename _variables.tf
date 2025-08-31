@@ -38,10 +38,6 @@ variable "sftp_users" {
   description = "List of SFTP usernames"
 }
 
-variable "address_allocation_ids" {
-  type        = list(string)
-  description = "List of Elastic IPs Allocation IDs to attach to VPC Endpoint."
-}
 
 variable "ip_allowlist" {
   type        = string
