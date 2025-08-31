@@ -71,8 +71,6 @@ run "test_public_endpoint_basic" {
     address_allocation_ids = ["eipalloc-12345678"]
     ip_allowlist          = "10.0.0.0/8,192.168.1.0/24"
     endpoint_type         = "PUBLIC"
-    aws_account_id        = "123456789012"
-    aws_role              = "test-role"
     public_subnet_ids     = ["subnet-12345678"]
     domain_zone           = "example.com"
     domain_host           = "sftp.example.com"
@@ -167,8 +165,6 @@ run "test_vpc_endpoint_configuration" {
     address_allocation_ids = ["eipalloc-87654321", "eipalloc-12345678"]
     ip_allowlist          = "172.16.0.0/12"
     endpoint_type         = "VPC"
-    aws_account_id        = "123456789012"
-    aws_role              = "test-role"
     public_subnet_ids     = ["subnet-87654321", "subnet-12345678"]
     domain_zone           = "example.com"
     domain_host           = "sftp-vpc.example.com"
@@ -254,8 +250,6 @@ run "test_multiple_users" {
     address_allocation_ids = ["eipalloc-11111111"]
     ip_allowlist          = "10.0.0.0/8"
     endpoint_type         = "PUBLIC"
-    aws_account_id        = "123456789012"
-    aws_role              = "test-role"
     public_subnet_ids     = ["subnet-11111111"]
     domain_zone           = "example.com"
     domain_host           = "multi-sftp.example.com"
@@ -322,8 +316,6 @@ run "test_security_policy" {
     address_allocation_ids = ["eipalloc-22222222"]
     ip_allowlist          = "192.168.0.0/16"
     endpoint_type         = "PUBLIC"
-    aws_account_id        = "123456789012"
-    aws_role              = "test-role"
     public_subnet_ids     = ["subnet-22222222"]
     domain_zone           = "example.com"
     domain_host           = "secure-sftp.example.com"
@@ -350,8 +342,6 @@ run "test_empty_users_list" {
     address_allocation_ids = ["eipalloc-33333333"]
     ip_allowlist          = "10.0.0.0/8"
     endpoint_type         = "PUBLIC"
-    aws_account_id        = "123456789012"
-    aws_role              = "test-role"
     public_subnet_ids     = ["subnet-33333333"]
     domain_zone           = "example.com"
     domain_host           = "empty-sftp.example.com"
@@ -400,8 +390,6 @@ run "test_invalid_s3_bucket_versioning" {
     address_allocation_ids = ["eipalloc-55555555"]
     ip_allowlist          = "10.0.0.0/8"
     endpoint_type         = "PUBLIC"
-    aws_account_id        = "123456789012"
-    aws_role              = "test-role"
     public_subnet_ids     = ["subnet-55555555"]
     domain_zone           = "example.com"
     domain_host           = "invalid-sftp.example.com"
