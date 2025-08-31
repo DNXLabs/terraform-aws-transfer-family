@@ -6,7 +6,7 @@ variable "s3_bucket_name" {
 variable "s3_bucket_versioning" {
   type        = string
   default     = "Enabled"
-  description = "Enable bucket versioning. Can be 'Enabled','Disabled' or 'Suspended'"
+  description = "S3 bucket versioning configuration. 'Enabled' - versioning is active and new object versions are created; 'Disabled' - versioning is turned off for new objects (existing versions remain); 'Suspended' - versioning is paused, new objects overwrite existing ones but previous versions are preserved"
 
   validation {
     condition     = contains(["Enabled", "Disabled", "Suspended"], var.s3_bucket_versioning)
@@ -41,7 +41,14 @@ variable "sftp_users" {
 
 variable "allowed_ips_list" {
   type        = list(string)
-  description = "List of IPs to allow on WAF and IAM Policies"
+  description = "List of IPs to allow on WAF and IAM Policies. Each IP must be in CIDR format (e.g., '192.168.1.0/24' or '10.0.0.1/32')"
+  
+  validation {
+    condition = alltrue([
+      for ip in var.allowed_ips_list : can(cidrhost(ip, 0))
+    ])
+    error_message = "All IP addresses in allowed_ips_list must be in valid CIDR format (e.g., '192.168.1.0/24' or '10.0.0.1/32')."
+  }
 }
 
 variable "endpoint_type" {
