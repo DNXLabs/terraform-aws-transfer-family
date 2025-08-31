@@ -25,13 +25,13 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | account\_name | The account or environment name | `string` | n/a | yes |
-| allowed\_ips\_list | List of IPs to allow on WAF and IAM Policies | `list(string)` | n/a | yes |
+| allowed\_ips\_list | List of IPs to allow on WAF and IAM Policies. Each IP must be in CIDR format (e.g., '192.168.1.0/24' or '10.0.0.1/32') | `list(string)` | n/a | yes |
 | domain\_host | The name of the Route 53 record | `string` | n/a | yes |
 | domain\_zone | Hosted Zone name of the desired Hosted Zone | `string` | n/a | yes |
 | endpoint\_type | PUBLIC or VPC | `string` | `"PUBLIC"` | no |
 | public\_subnet\_ids | List of public subnet IDs for VPC Endpoint. | `list(any)` | `[]` | no |
 | s3\_bucket\_name | The bucket name | `string` | n/a | yes |
-| s3\_bucket\_versioning | Enable bucket versioning. Can be 'Enabled','Disabled' or 'Suspended' | `string` | `"Enabled"` | no |
+| s3\_bucket\_versioning | S3 bucket versioning configuration. 'Enabled' - versioning is active and new object versions are created; 'Disabled' - versioning is turned off for new objects (existing versions remain); 'Suspended' - versioning is paused, new objects overwrite existing ones but previous versions are preserved | `string` | `"Enabled"` | no |
 | security\_policy\_name | Specifies the name of the security policy that is attached to the server. Possible values are TransferSecurityPolicy-2018-11, TransferSecurityPolicy-2020-06, and TransferSecurityPolicy-FIPS-2020-06. Default value is: TransferSecurityPolicy-2018-11. | `string` | `"TransferSecurityPolicy-2018-11"` | no |
 | server\_name | Specifies the name of the SFTP server | `string` | n/a | yes |
 | sftp\_users | List of SFTP usernames | <pre>list(object({<br>    username = string<br>  }))</pre> | `[]` | no |
