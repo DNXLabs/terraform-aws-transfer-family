@@ -64,12 +64,14 @@ variable "public_subnet_ids" {
 }
 variable "domain_zone" {
   type        = string
-  description = "Hosted Zone name of the desired Hosted Zone"
+  default     = ""
+  description = "(optional) Hosted Zone name of the desired Hosted Zone"
 }
 
 variable "domain_host" {
   type        = string
-  description = "The name of the Route 53 record"
+  default     = ""
+  description = "(optional) The name of the Route 53 record"
 }
 
 variable "account_name" {

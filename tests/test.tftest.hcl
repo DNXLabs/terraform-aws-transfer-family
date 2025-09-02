@@ -134,13 +134,25 @@ run "test_public_endpoint_basic" {
 
   # Verify Route53 record is created
   assert {
-    condition     = aws_route53_record.transfer-family.type == "CNAME"
+    condition     = aws_route53_record.transfer-family[0].type == "CNAME"
     error_message = "Route53 record should be of type CNAME"
   }
 
   assert {
-    condition     = aws_route53_record.transfer-family.ttl == 300
+    condition     = aws_route53_record.transfer-family[0].ttl == 300
     error_message = "Route53 record should have TTL of 300"
+  }
+
+  # Verify Route53 data source is created
+  assert {
+    condition     = length(data.aws_route53_zone.selected) == 1
+    error_message = "Should create Route53 zone data source when domain_zone is provided"
+  }
+
+  # Verify Route53 record count is correct
+  assert {
+    condition     = length(aws_route53_record.transfer-family) == 1
+    error_message = "Should create one Route53 record when both domain_zone and domain_host are provided"
   }
 }
 
@@ -393,4 +405,163 @@ run "test_invalid_s3_bucket_versioning" {
   expect_failures = [
     var.s3_bucket_versioning,
   ]
+}
+
+# Test 7: No Route53 resources when domain_zone is empty
+run "test_no_route53_empty_domain_zone" {
+  command = plan
+
+  variables {
+    s3_bucket_name       = "no-route53-bucket"
+    s3_bucket_versioning = "Enabled"
+    server_name          = "no-route53-server"
+    vpc_id               = "vpc-44444444"
+    sftp_users = [
+      {
+        username = "testuser"
+      }
+    ]
+    allowed_ips_list      = ["10.0.0.0/8"]
+    endpoint_type         = "PUBLIC"
+    public_subnet_ids     = ["subnet-44444444"]
+    domain_zone           = ""
+    domain_host           = "sftp.example.com"
+    account_name          = "test-account"
+  }
+
+  # Verify no Route53 resources are created when domain_zone is empty
+  assert {
+    condition     = length(data.aws_route53_zone.selected) == 0
+    error_message = "Should not create Route53 zone data source when domain_zone is empty"
+  }
+
+  assert {
+    condition     = length(aws_route53_record.transfer-family) == 0
+    error_message = "Should not create Route53 record when domain_zone is empty"
+  }
+
+  # Verify server is still created
+  assert {
+    condition     = aws_transfer_server.default.identity_provider_type == "SERVICE_MANAGED"
+    error_message = "Transfer server should still be created even without Route53"
+  }
+}
+
+# Test 8: No Route53 resources when domain_host is empty
+run "test_no_route53_empty_domain_host" {
+  command = plan
+
+  variables {
+    s3_bucket_name       = "no-route53-host-bucket"
+    s3_bucket_versioning = "Enabled"
+    server_name          = "no-route53-host-server"
+    vpc_id               = "vpc-55555555"
+    sftp_users = [
+      {
+        username = "testuser"
+      }
+    ]
+    allowed_ips_list      = ["10.0.0.0/8"]
+    endpoint_type         = "PUBLIC"
+    public_subnet_ids     = ["subnet-55555555"]
+    domain_zone           = "example.com"
+    domain_host           = ""
+    account_name          = "test-account"
+  }
+
+  # Verify Route53 zone data source is created but no record
+  assert {
+    condition     = length(data.aws_route53_zone.selected) == 1
+    error_message = "Should create Route53 zone data source when domain_zone is provided"
+  }
+
+  assert {
+    condition     = length(aws_route53_record.transfer-family) == 0
+    error_message = "Should not create Route53 record when domain_host is empty"
+  }
+
+  # Verify server is still created
+  assert {
+    condition     = aws_transfer_server.default.identity_provider_type == "SERVICE_MANAGED"
+    error_message = "Transfer server should still be created even without Route53 record"
+  }
+}
+
+# Test 9: No Route53 resources when both domain_zone and domain_host are empty
+run "test_no_route53_both_empty" {
+  command = plan
+
+  variables {
+    s3_bucket_name       = "no-route53-both-bucket"
+    s3_bucket_versioning = "Enabled"
+    server_name          = "no-route53-both-server"
+    vpc_id               = "vpc-66666666"
+    sftp_users = [
+      {
+        username = "testuser"
+      }
+    ]
+    allowed_ips_list      = ["10.0.0.0/8"]
+    endpoint_type         = "PUBLIC"
+    public_subnet_ids     = ["subnet-66666666"]
+    domain_zone           = ""
+    domain_host           = ""
+    account_name          = "test-account"
+  }
+
+  # Verify no Route53 resources are created when both are empty
+  assert {
+    condition     = length(data.aws_route53_zone.selected) == 0
+    error_message = "Should not create Route53 zone data source when both domain_zone and domain_host are empty"
+  }
+
+  assert {
+    condition     = length(aws_route53_record.transfer-family) == 0
+    error_message = "Should not create Route53 record when both domain_zone and domain_host are empty"
+  }
+
+  # Verify server is still created
+  assert {
+    condition     = aws_transfer_server.default.identity_provider_type == "SERVICE_MANAGED"
+    error_message = "Transfer server should still be created even without any Route53 configuration"
+  }
+}
+
+# Test 10: No Route53 resources when variables are not provided (using defaults)
+run "test_no_route53_default_values" {
+  command = plan
+
+  variables {
+    s3_bucket_name       = "default-route53-bucket"
+    s3_bucket_versioning = "Enabled"
+    server_name          = "default-route53-server"
+    vpc_id               = "vpc-77777777"
+    sftp_users = [
+      {
+        username = "testuser"
+      }
+    ]
+    allowed_ips_list      = ["10.0.0.0/8"]
+    endpoint_type         = "PUBLIC"
+    public_subnet_ids     = ["subnet-77777777"]
+    account_name          = "test-account"
+    # domain_zone and domain_host not provided, should use default empty strings
+  }
+
+  # Verify no Route53 resources are created when using default values
+  assert {
+    condition     = length(data.aws_route53_zone.selected) == 0
+    error_message = "Should not create Route53 zone data source when using default empty values"
+  }
+
+  assert {
+    condition     = length(aws_route53_record.transfer-family) == 0
+    error_message = "Should not create Route53 record when using default empty values"
+  }
+
+  # Verify server is still created
+  assert {
+    condition     = aws_transfer_server.default.identity_provider_type == "SERVICE_MANAGED"
+    error_message = "Transfer server should still be created with default Route53 values"
+  }
 }
