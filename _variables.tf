@@ -42,7 +42,7 @@ variable "sftp_users" {
 variable "allowed_ips_list" {
   type        = list(string)
   description = "List of IPs to allow on WAF and IAM Policies. Each IP must be in CIDR format (e.g., '192.168.1.0/24' or '10.0.0.1/32')"
-  
+
   validation {
     condition = alltrue([
       for ip in var.allowed_ips_list : can(cidrhost(ip, 0))
@@ -62,14 +62,21 @@ variable "public_subnet_ids" {
   default     = []
   description = "List of public subnet IDs for VPC Endpoint."
 }
+
 variable "domain_zone" {
   type        = string
-  description = "Hosted Zone name of the desired Hosted Zone"
+  default     = ""
+  description = "(optional) Hosted Zone name of the desired Hosted Zone"
+  validation {
+    condition     = var.domain_zone == "" || can(regex("^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$", var.domain_zone))
+    error_message = "Domain zone must be a valid domain name or empty string"
+  }
 }
 
 variable "domain_host" {
   type        = string
-  description = "The name of the Route 53 record"
+  default     = ""
+  description = "(optional) The name of the Route 53 record"
 }
 
 variable "account_name" {

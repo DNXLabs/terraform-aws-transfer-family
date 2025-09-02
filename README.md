@@ -26,8 +26,8 @@
 |------|-------------|------|---------|:--------:|
 | account\_name | The account or environment name | `string` | n/a | yes |
 | allowed\_ips\_list | List of IPs to allow on WAF and IAM Policies. Each IP must be in CIDR format (e.g., '192.168.1.0/24' or '10.0.0.1/32') | `list(string)` | n/a | yes |
-| domain\_host | The name of the Route 53 record | `string` | n/a | yes |
-| domain\_zone | Hosted Zone name of the desired Hosted Zone | `string` | n/a | yes |
+| domain\_host | (optional) The name of the Route 53 record | `string` | `""` | no |
+| domain\_zone | (optional) Hosted Zone name of the desired Hosted Zone | `string` | `""` | no |
 | endpoint\_type | PUBLIC or VPC | `string` | `"PUBLIC"` | no |
 | public\_subnet\_ids | List of public subnet IDs for VPC Endpoint. | `list(any)` | `[]` | no |
 | s3\_bucket\_name | The bucket name | `string` | n/a | yes |
