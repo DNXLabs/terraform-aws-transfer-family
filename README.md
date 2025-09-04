@@ -44,6 +44,7 @@
 | eip\_allocation\_ids | List of Elastic IP allocation IDs created for the Transfer Server |
 | eip\_public\_ips | List of Elastic IP public IPs created for the Transfer Server |
 | endpoint | n/a |
+| server\_id | n/a |
 
 <!--- END_TF_DOCS --->
 
