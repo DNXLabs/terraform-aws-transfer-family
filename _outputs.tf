@@ -11,3 +11,7 @@ output "eip_public_ips" {
   description = "List of Elastic IP public IPs created for the Transfer Server"
   value       = aws_eip.transfer_server[*].public_ip
 }
+
+output "server_id" {
+  value = aws_transfer_server.default.id
+}
