@@ -40,7 +40,7 @@ resource "aws_transfer_user" "default" {
 
   home_directory_mappings {
     entry  = "/"
-    target = "/${var.s3_bucket_name}/$${Transfer:UserName}"
+    target = "/${aws_s3_bucket.sftp.bucket}/$${Transfer:UserName}"
   }
 
   lifecycle {
